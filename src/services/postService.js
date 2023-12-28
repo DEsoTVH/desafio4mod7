@@ -2,9 +2,12 @@
 const URL_API = "http://localhost:3000/posts";
 
 export const getPosts = async () => {
-  const response = await fetch(URL_API);
-  const data = await response.json();
-  return data;
+  const data   = await fetch(URL_API);
+
+  // setPosts([...posts]);
+  // const response = await fetch(URL_API);
+  // const data = await response.json();
+   return data.json();
 };
 
 export const addPost = async (post) => {

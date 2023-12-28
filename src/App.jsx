@@ -15,13 +15,11 @@ export default function App() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    getPosts()
-      .then((data) => {
-        setPosts(data);
-      })
-      .catch((err) => {
-        errorToast("Error al obtener los posts");
-      });
+    getPosts().then(data => {
+      console.log(data);
+      console.log(posts);
+      setPosts( data.result );
+    });
   }, []);
 
   const createPost = (post) => {
@@ -37,7 +35,9 @@ export default function App() {
 
   const deletePostById = (id) => {
     deletePost(id).then(() => {
-      const newPosts = posts.filter((post) => post.id !== id);
+      const newPosts = posts.filter((post) => {
+        return post.id !== id;
+      });
       setPosts(newPosts);
       successToast("Post eliminado correctamente");
     });
@@ -45,9 +45,15 @@ export default function App() {
 
   const likePostById = (id) => {
     likePost(id).then(() => {
-      const newPosts = posts.map((post) =>
-        post.id === id ? { ...post, likes: post.likes + 1 } : post
-      );
+      const newPosts = posts.map((post) => {
+        if (post.id === id) {
+          return {
+            ...post,
+            likes: post.likes + 1,
+          };
+        }
+        return post;
+      });
       setPosts(newPosts);
     });
   };
@@ -65,16 +71,18 @@ export default function App() {
           </div>
         </section>
         <section className="col-12 col-md-4 mt-5">
-          {Array.isArray(posts) ? (
-            posts.map((post) => (
+          {posts.map((post) => {
+            return (
               <CardPost
                 key={post.id}
                 post={post}
                 deletePostById={deletePostById}
                 likePostById={likePostById}
               />
-            ))
-          ) : (
+            );
+          })}
+
+          {posts.length === 0 && (
             <div className="card">
               <div className="card-body">
                 <h2>No hay posts</h2>

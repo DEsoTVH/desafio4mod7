@@ -15,6 +15,7 @@ export default function CardPost({ post, deletePostById, likePostById }) {
         <div className="d-flex mt-3 justify-content-between align-items-center">
           <div>
             <HeartIcon
+              key={post.id}
               fill="red"
               height="25"
               onClick={() => {
@@ -26,6 +27,7 @@ export default function CardPost({ post, deletePostById, likePostById }) {
           </div>
           <div>
             <TrashIcon
+              key={post.id}
               fill="red"
               height="25"
               onClick={() => {
